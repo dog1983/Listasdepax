@@ -32,6 +32,7 @@
   <script>
     let tableData = [];
 
+    // Cargar CSV
     document.getElementById('csvFile').addEventListener('change', function (e) {
       const file = e.target.files[0];
       const reader = new FileReader();
@@ -125,24 +126,11 @@
     }
 
     function clearStorage() {
-      const confirmed = confirm('¿Estás seguro de que deseas borrar los datos guardados? Esta acción no se puede deshacer.');
-      if (confirmed) {
-        localStorage.removeItem('csvData');
-        tableData = [];
-        document.getElementById('tableContainer').innerHTML = '';
-        alert('Datos borrados del almacenamiento local.');
-      }
+      localStorage.removeItem('csvData');
+      alert('Datos borrados del almacenamiento local.');
     }
 
-    // Evita cierre accidental si hay datos cargados
-    window.addEventListener('beforeunload', function (e) {
-      if (localStorage.getItem('csvData')) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
-    });
-
-    // Cargar datos automáticamente si existen
+    // Cargar automáticamente si hay algo guardado
     window.onload = () => {
       const stored = localStorage.getItem('csvData');
       if (stored) {
